@@ -20,6 +20,7 @@ dependencies = [
     "huggingface-hub>=0.36.0",
     "ipykernel>=7.1.0",
     "ipywidgets>=8.1.8",
+    "nanogcg>=0.2.3",
     "peft>=0.18.0",
     "torch>=2.9.1",
     "transformers>=4.57.3",
