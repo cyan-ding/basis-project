@@ -27,4 +27,9 @@ Our goal during benchmarking is to see whether our fine tuned PGD model performs
 
 ## Results
 
+## Models
+
+You can find our models here:
+- [Fine tuned Llama 3.1](https://huggingface.co/blueplus/basis-project-llama-3.1-8b-finetune)
+
 
