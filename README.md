@@ -9,7 +9,7 @@ We then run various attack algorithms to benchmark the performance of our model.
 
 ## Fine tuning process
 
-For each forward pass on Llama 3.1 8B or Gemma, we run three iterations of projected gradient descent to craft a suffix.
+For each forward pass on Llama 3.1 8B, we run three iterations of projected gradient descent to craft a suffix.
 - This suffix is optimized to increase loss, or push the model response toward the non-safe direction as much as possible
 - We then do supervised fine tuning using the 30k train dataset using on PKU-Alignment/BeaverTails.
 - This dataset is originally meant for RLHF work and preference opimization. However, we adapt it for PGD fine tuning. 
@@ -22,7 +22,16 @@ We then take the 11604 safe rows out of 27186 total rows and format a prompt tha
 
 ## Benchmarking
 
-Our goal during benchmarking is to see whether our fine tuned PGD model performs better against adversarial prompt suffix optimization attacks than the base model
+Our goal during benchmarking is to see whether our fine tuned PGD model performs better against adversarial prompt suffix optimization attacks than the base model.
+
+To benchmark, we use GCG to produce adversarial suffixes that we would attach to unsafe inputs to simulate an attack.
+- We first sample 100 random unsafe inputs from the BeaverTails dataset that we didn't use previously in the training set
+- We had previously only done the adversarial training on rows where is_safe is true, during benchmarking we sample inputs from rows where is_safe is false
+- We then run Greedy Coordinate Gradient, an optimization method to produce suffixes that would maximize the probability of the model saying "Sure, here is" to unsafe inputs. 
+- We use GCG to produce 100 unsafe suffixes. 
+
+During inference, we pass these 100 unsafe suffixes along with the corresponding prompts to both the base model and the fine tuned model, and measure Attack Success Rate (ASR)
+- We accomplish this by using an LLM as a Judge, evaluating whether the model complied to the request. 
 
 
 ## Results
