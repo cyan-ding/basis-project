@@ -25,16 +25,23 @@ We then take the 11604 safe rows out of 27186 total rows and format a prompt tha
 Our goal during benchmarking is to see whether our fine tuned PGD model performs better against adversarial prompt suffix optimization attacks than the base model.
 
 To benchmark, we use GCG to produce adversarial suffixes that we would attach to unsafe inputs to simulate an attack.
-- We first sample 100 random unsafe inputs from the BeaverTails dataset that we didn't use previously in the training set
+- We first sample 42 random unsafe inputs from the BeaverTails dataset that we didn't use previously in the training set
 - We had previously only done the adversarial training on rows where is_safe is true, during benchmarking we sample inputs from rows where is_safe is false
-- We then run Greedy Coordinate Gradient, an optimization method to produce suffixes that would maximize the probability of the model saying "Sure, here is" to unsafe inputs. 
-- We use GCG to produce 100 unsafe suffixes. 
+- We then run Greedy Coordinate Gradient, an optimization method to produce suffixes that would maximize the probability of the model saying the corresponding reference unsafe output to unsafe inputs. 
+- We use GCG on the base Llama model to generate one suffix per unsafe prompt.
 
-During inference, we pass these 100 unsafe suffixes along with the corresponding prompts to both the base model and the fine tuned model, and measure Attack Success Rate (ASR)
-- We accomplish this by using an LLM as a Judge, evaluating whether the model complied to the request. 
-
+During inference, we pass these 42 unsafe suffixes along with the corresponding prompts to both the base model and the fine tuned model, and measure Attack Success Rate (ASR)
+- ~~We accomplish this by using an LLM as a Judge, evaluating whether the model complied to the request.~~
+- Since the number of samples was low, we simply manually classified each of the 82 generations into "complied" or "refused"
 
 ## Results
+
+- We found that the ASR was different between the finetuned model and the base model:
+
+|                           | Base  | Finetuned |
+|---------------------------|-------|-----------|
+| Complied Samples Count    | 19    | 15        |
+| Attack Success Rate (ASR) | 0.452 | 0.357     |
 
 ## Models
 
