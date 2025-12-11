@@ -6,6 +6,13 @@ We do PGD **(projected gradient descent)** adversarial training to fine tune an 
 
 We then run various attack algorithms to benchmark the performance of our model.
 
+## External links
+
+**Slides**: [Google Slides](https://docs.google.com/presentation/d/1-b06dIbs6Rr9Yt0qPtrkOVODe9CDFiCj0lPRF7ts20Q/view)
+
+**Video**: [YouTube](https://youtu.be/SPtlrWxAiDE)
+
+**Code**: [GitHub](https://github.com/cyan-ding/basis-project)
 
 ## Fine tuning process
 
